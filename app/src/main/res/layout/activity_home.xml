@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity"
+    android:background="@drawable/background_home">
+
+    <TextView
+        android:id="@+id/nameLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:shadowColor="#4D000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="1"
+        android:textStyle="bold|italic"
+        android:layout_marginBottom="20dp"
+        android:text="DentApp"
+        android:textColor="#2088AE"
+        android:textSize="30sp"
+         />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/nameLogo"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:columnCount="3"
+        android:rowCount="3">
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:padding="16dp">
+            <AutoCompleteTextView
+                android:id="@+id/SelectArea"
+                android:layout_width="342dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/rounded_spinner_background"
+                android:drawableLeft="@drawable/baseline_add_home_24"
+                android:drawablePadding="10dp"
+                android:paddingLeft="16dp"
+                android:textStyle="bold"
+                android:hint="Select area"
+                android:inputType="text"
+                android:textSize="15dp"
+                android:textColorHint="@color/black"
+                />
+
+
+
+            <AutoCompleteTextView
+                android:id="@+id/editTextSearchDoctor"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_below="@id/SelectArea"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/rounded_spinner_background"
+                android:drawableLeft="@drawable/baseline_search_24"
+                android:drawablePadding="10dp"
+                android:paddingLeft="16dp"
+                android:textStyle="bold"
+                android:hint="Search doctor"
+                android:textColorHint="@color/black"
+                android:textSize="15dp"
+                />
+
+            <Button
+                android:id="@+id/buttonSelectDate"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_below="@id/editTextSearchDoctor"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="#2088AE"
+                android:drawableLeft="@drawable/baseline_date_range_24"
+                android:drawablePadding="10dp"
+                android:text="Select Date"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:gravity="center_vertical|start"
+                android:paddingLeft="16dp"
+                android:textColor="#FF000000"
+                />
+
+            <Button
+                android:id="@+id/buttonSelectTiming"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_below="@id/buttonSelectDate"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#2088AE"
+                android:drawableLeft="@drawable/baseline_access_time_24"
+                android:drawablePadding="10dp"
+                android:text="Select Timing"
+                android:textSize="15dp"
+                android:textStyle="bold"
+
+                android:gravity="center_vertical|start"
+                android:paddingLeft="16dp"
+                android:textColor="#FF000000" />
+
+
+            <Button
+                android:id="@+id/buttonSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/buttonSelectTiming"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="120dp"
+                android:text="Search"
+                android:backgroundTint="#2088AE"
+                android:textColor="#FFF" />
+
+
+        </RelativeLayout>
+
+    </GridLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:padding="1dp">
+
+
+    <Button
+        android:id="@+id/btnSchedule"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Caută"
+        android:drawableTop="@drawable/reservations"
+        android:backgroundTint="#ffffff"
+        android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/btnMyAppointments"
+            android:layout_width="0dp"
+            android:layout_height="102dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:drawableTop="@drawable/schedule"
+            android:text="Programările mele"
+            android:textColor="@color/black" />
+
+        <Button
+        android:id="@+id/btnProfile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Profil"
+        android:drawableTop="@drawable/person"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black" />
+</LinearLayout>
+
+</RelativeLayout>

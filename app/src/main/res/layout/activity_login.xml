@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login"
+    android:background="@drawable/background"
+    >
+
+    <TextView
+        android:id="@+id/nameLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        android:text="DentApp"
+        android:textColor="#357EC7"
+        android:textSize="35dp"
+        android:shadowColor="#4D000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="1"
+        android:textStyle="bold|italic"></TextView>
+
+    <EditText
+        android:id="@+id/username1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nameLogo"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#40ffffff"
+        android:drawableLeft="@drawable/baseline_person_outline_24"
+        android:drawablePadding="15dp"
+        android:hint="Pacient username"
+        android:padding="20dp"
+        android:textColorHint="@color/white"
+        />
+
+    <EditText
+        android:id="@+id/password1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/username1"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#40ffffff"
+        android:drawableLeft="@drawable/baseline_password_24"
+        android:drawablePadding="15dp"
+        android:hint="Password"
+        android:padding="20dp"
+        android:textColorHint="@color/white"
+        android:inputType="textPassword"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/OR"
+        android:text="OR"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/password1"
+
+        />
+    <EditText
+        android:id="@+id/doctorNameLogIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/OR"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#40ffffff"
+        android:drawableLeft="@drawable/baseline_contact_emergency_24"
+        android:drawablePadding="15dp"
+        android:hint="Doctor name"
+        android:padding="20dp"
+        android:textColorHint="@color/white"
+        />
+    <EditText
+        android:id="@+id/password2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/doctorNameLogIn"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#40ffffff"
+        android:drawableLeft="@drawable/baseline_password_24"
+        android:drawablePadding="15dp"
+        android:hint="Password"
+        android:padding="20dp"
+        android:textColorHint="@color/white"
+        android:inputType="textPassword"
+        />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/loginbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password2"
+        android:layout_alignParentRight="false"
+        android:layout_marginStart="162dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="#1CAFCD"
+        android:text="Log In"
+        android:textSize="17dp" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo"
+        />
+
+    <ImageButton
+        android:id="@+id/backbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#1CAFCD"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_below="@id/loginbutton"
+        android:layout_marginStart="185dp"
+
+        />
+
+
+
+</RelativeLayout>

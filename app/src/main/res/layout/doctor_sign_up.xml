@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/background"
+    >
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo"
+        />
+    <TextView
+        android:id="@+id/textViewMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Intră în comunitatea DentApp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="22sp"
+        android:layout_marginBottom="10dp"
+         />
+    <EditText
+        android:id="@+id/editTextDoctorUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:inputType="textPersonName"/>
+    <EditText
+        android:id="@+id/editTextDoctorName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:inputType="textPersonName"/>
+
+    <EditText
+        android:id="@+id/editTextDoctorEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:inputType="textEmailAddress"/>
+
+    <EditText
+        android:id="@+id/editTextDoctorPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"/>
+    <EditText
+        android:id="@+id/editTextDoctorConfirmPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Confirm password"
+        android:inputType="textPassword"/>
+    <EditText
+        android:id="@+id/editTextDoctorPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Telefon"
+        android:inputType="phone"
+        android:maxLength="10"/>
+    <AutoCompleteTextView
+        android:id="@+id/editTextArea"
+        android:layout_width="342dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="8dp"
+        android:layout_below="@+id/editTextDoctorPhone"
+        android:hint="Judet"
+        android:inputType="text"
+        android:textSize="20dp"
+        />
+
+
+    <Button
+        android:id="@+id/buttonDoctorSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="#1CAFCD"/>
+
+</LinearLayout>
