@@ -1,20 +1,20 @@
 package com.example.dentaapp;
 
-public class Appointment{
-    private String doctorUsername;
+public class AppointmentForDoctor {
+    private String patientUsername;
     private String date;
     private String startTime;
     private String endTime;
 
-    public Appointment(String doctorUsername, String date, String startTime, String endTime) {
-        this.doctorUsername = doctorUsername;
+    public AppointmentForDoctor(String patientUsername, String date, String startTime, String endTime) {
+        this.patientUsername = patientUsername;
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    public String getDoctorUsername() {
-        return doctorUsername;
+    public String getPatientUsername() {
+        return patientUsername;
     }
 
     public String getDate() {
@@ -29,3 +29,4 @@ public class Appointment{
         return endTime;
     }
 }
+

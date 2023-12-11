@@ -34,7 +34,7 @@ public class DoctorSignUp extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editTextDoctorPassword);
         editTextConfirmPassword = findViewById(R.id.editTextDoctorConfirmPassword);
         editTextDoctorPhone = findViewById(R.id.editTextDoctorPhone);
-        editTextDoctorUserName = findViewById(R.id.editTextDoctorName);
+        editTextDoctorUserName = findViewById(R.id.editTextDoctorUserName);
         editTextArea = findViewById(R.id.editTextArea);
         buttonSignUp = findViewById(R.id.buttonDoctorSignUp);
         String[] judete = {"Alba", "Arad", "Arges", "Bacau", "Bihor", "Bistrita-Nasaud", "Botosani", "Braila", "Brasov", "Buzau",
@@ -67,6 +67,7 @@ public class DoctorSignUp extends AppCompatActivity {
                 String username = editTextDoctorUserName.getText().toString().trim();
                 String phone = editTextDoctorPhone.getText().toString().trim();
                 String location =editTextArea.getText().toString().trim();
+
 
                 if (validateInputs(username,name, email, password, repassword, phone,location)) {
                     boolean insertSuccessful = dbHelper.insertDoctor(username,name,email, password, phone);

@@ -64,7 +64,6 @@
                 android:layout_height="wrap_content"
                 android:text="Date"
                 android:textAppearance="?android:attr/textAppearanceListItem" />
-            <!-- Adăugați alte TextView-uri pentru ora de început, ora de sfârșit etc. -->
         </LinearLayout>
 
 

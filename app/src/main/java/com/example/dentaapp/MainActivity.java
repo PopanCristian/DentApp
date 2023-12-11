@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -61,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
                             boolean insert = MyDB.insertData(user, pass, emaill);
                             if(insert) {
                                 Toast.makeText(MainActivity.this, "Cont creat cu succes !", Toast.LENGTH_SHORT).show();
+                                SharedPreferences sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("username", String.valueOf(username)); // 'username' este numele de utilizator al utilizatorului care se autentifică
+                                editor.apply();
+
                                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                 startActivity(intent);
                             } else {

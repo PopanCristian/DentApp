@@ -2,8 +2,10 @@ package com.example.dentaapp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,7 +54,9 @@ public class Login extends AppCompatActivity {
                         boolean checkuserpass = DB.checkusernamepassword(user, pass);
                         if (checkuserpass) {
                             Toast.makeText(Login.this, "Te-ai logat cu succes!", Toast.LENGTH_SHORT).show();
+                            String username = user;
                             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                            intent.putExtra("USERNAME", username);
                             startActivity(intent);
                         } else {
                             Toast.makeText(Login.this, "Logare eșuată!", Toast.LENGTH_SHORT).show();
@@ -65,7 +69,9 @@ public class Login extends AppCompatActivity {
                         boolean checkDoctorPass = DB.checkDoctorUsernamePassword(doctor, pass2);
                         if (checkDoctorPass) {
                             Toast.makeText(Login.this, "Te-ai logat ca doctor cu succes!", Toast.LENGTH_SHORT).show();
+                            String doctorname = doctor;
                             Intent intent = new Intent(getApplicationContext(), DoctorHomeActivity.class);
+                            intent.putExtra("USERNAME", doctorname);
                             startActivity(intent);
                         } else {
                             Toast.makeText(Login.this, "Logare eșuată pentru doctor!", Toast.LENGTH_SHORT).show();
@@ -81,8 +87,6 @@ public class Login extends AppCompatActivity {
                 finish();
             }
         });
-
-
 
 
     }

@@ -8,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -78,17 +79,20 @@ public class HomeActivity extends AppCompatActivity {
         autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
             String judetSelectat = adapter.getItem(position);
         });
+
+
+
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Colectați informațiile necesare din UI
                 String selectedArea = getSelectedArea();
                 String selectedDoctorUsername = getSelectedDoctorUsername();
                 String selectedDate = getSelectedDate();
                 String selectedTime = getSelectedTime();
 
-                // Validați și adăugați programarea
-                validateAndAddAppointment(selectedDoctorUsername, selectedDate, selectedTime);
+                String username = getIntent().getStringExtra("USERNAME");
+                Log.d("SearchActivity", "Username la buttonsearch: " + username);
+                validateAndAddAppointment(username,selectedDoctorUsername, selectedDate, selectedTime);
             }
         });
         AutoCompleteTextView autoCompleteTextViewDoctor = findViewById(R.id.editTextSearchDoctor);
@@ -107,6 +111,10 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, MyAppointmentsPatience.class);
+                String username = getIntent().getStringExtra("USERNAME");
+                Log.d("SearchActivity", "Username la ProgramarileMele: " + username);
+
+                intent.putExtra("USERNAME", username);
                 startActivity(intent);
             }
         });
@@ -114,49 +122,45 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, ProfilePatience.class);
+                String username = getIntent().getStringExtra("USERNAME");
+                intent.putExtra("USERNAME", username);
+
                 startActivity(intent);
             }
         });
         btnSelectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Obțineți instanța curentă a Calendar pentru a prepopula DatePickerDialog
                 final Calendar c = Calendar.getInstance();
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH);
                 int day = c.get(Calendar.DAY_OF_MONTH);
 
-                // Creează un nou DatePickerDialog
                 DatePickerDialog datePickerDialog = new DatePickerDialog(HomeActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                // Salvați data selectată în câmpul selectedDate
                                 selectedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
-                                // Actualizați textul butonului pentru a afișa data selectată
                                 btnSelectDate.setText(selectedDate);
                             }
                         }, year, month, day);
                 datePickerDialog.show();
             }
         });
-        Button buttonSelectTime = findViewById(R.id.buttonSelectTiming); // Presupunând că acesta este ID-ul butonului
+        Button buttonSelectTime = findViewById(R.id.buttonSelectTiming);
         buttonSelectTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Obțineți instanța curentă a Calendar pentru a prepopula TimePickerDialog
                 final Calendar c = Calendar.getInstance();
                 int hour = c.get(Calendar.HOUR_OF_DAY);
                 int minute = c.get(Calendar.MINUTE);
 
-                // Creează un nou TimePickerDialog
+
                 TimePickerDialog timePickerDialog = new TimePickerDialog(HomeActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                // Salvați timpul selectat în câmpul selectedTime
                                 selectedTime = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute);
-                                // Actualizați textul butonului pentru a afișa timpul selectat
                                 buttonSelectTime.setText(selectedTime);
                             }
                         }, hour, minute, true);
@@ -209,14 +213,12 @@ public class HomeActivity extends AppCompatActivity {
                 }, hour, minute, true); // 'true' pentru formatul de 24 de ore
         timePickerDialog.show();
     }
-    // Metoda pentru a obține zona selectată de utilizator
     private String getSelectedArea() {
         // Presupunem că aveți un Spinner pentru zone
         AutoCompleteTextView  areaSpinner = findViewById(R.id.SelectArea); // Înlocuiți cu ID-ul real al Spinner-ului pentru zone
         return areaSpinner.getText().toString();
     }
 
-    // Metoda pentru a obține username-ul doctorului selectat
     private String getSelectedDoctorUsername() {
         AutoCompleteTextView doctorAutoComplete = findViewById(R.id.editTextSearchDoctor);
         if (doctorAutoComplete != null) {
@@ -231,7 +233,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    // Metoda pentru a obține data selectată de utilizator
     private String getSelectedDate() {
         return selectedDate; // Acesta va fi null dacă utilizatorul nu a selectat o dată
     }
@@ -243,7 +244,7 @@ public class HomeActivity extends AppCompatActivity {
         return selectedTime; // Acesta va fi null dacă utilizatorul nu a selectat un timp
     }
 
-    private void validateAndAddAppointment(String doctorUsername, String date, String startTime) {
+    private void validateAndAddAppointment(String username,String doctorUsername, String date, String startTime) {
         String endTime = DB.calculateEndTime(startTime);
 
         if (doctorUsername == null || date == null || startTime == null || endTime == null) {
@@ -251,8 +252,8 @@ public class HomeActivity extends AppCompatActivity {
             return;
         }
 
-        if (DB.isAppointmentAvailable(doctorUsername, date, startTime, endTime)) {
-            boolean isInserted = DB.addAppointment(doctorUsername, date, startTime, endTime);
+        if (DB.isAppointmentAvailable(username,doctorUsername, date, startTime, endTime)) {
+            boolean isInserted = DB.addAppointment(username,doctorUsername, date, startTime, endTime);
             if (isInserted) {
                 Toast.makeText(this, "Programarea a fost adăugată cu succes.", Toast.LENGTH_SHORT).show();
             } else {

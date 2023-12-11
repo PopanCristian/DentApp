@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -22,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String DBNAME = "login.db";
 
     public DBHelper(Context context) {
-        super(context, DBNAME, null, 8);
+        super(context, DBNAME, null, 14);
         this.context =context;
     }
 
@@ -31,10 +32,12 @@ public class DBHelper extends SQLiteOpenHelper {
         MyDB.execSQL("create table users(username TEXT primary key, password TEXT,email TEXT)");
         MyDB.execSQL("create table appointment(" +
                 "id INTEGER primary key AUTOINCREMENT, " +
-                "doctorusername TEXT, " + // Asigurați-vă că această linie există
+                "username TEXT, " +
+                "doctorusername TEXT, " +
                 "data TEXT, " +
                 "ora_inceput TEXT, " +
                 "ora_sfarsit TEXT, " +
+                "FOREIGN KEY(username) REFERENCES users(username)," +
                 "FOREIGN KEY(doctorusername) REFERENCES doctors(doctorusername))");
         MyDB.execSQL("create table doctors(doctorusername TEXT primary key, doctorname TEXT, email TEXT, password TEXT, phone TEXT)");
     }
@@ -59,9 +62,10 @@ public class DBHelper extends SQLiteOpenHelper {
         else return true;
     }
 
-    public boolean addAppointment(String doctorUsername, String date, String startTime, String endTime) {
+    public boolean addAppointment(String username,String doctorUsername, String date, String startTime, String endTime) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put("username", username);
         values.put("doctorusername", doctorUsername);
         values.put("data", date);
         values.put("ora_inceput", startTime);
@@ -80,7 +84,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
 
-    public boolean isAppointmentAvailable(String doctorUsername, String date, String startTime, String endTime) {
+    public boolean isAppointmentAvailable(String username,String doctorUsername, String date, String startTime, String endTime) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM appointment WHERE doctorusername = ? AND data = ? AND " +
                 "((ora_inceput < ? AND ora_sfarsit > ?) OR (ora_inceput < ? AND ora_sfarsit > ?))";
@@ -139,25 +143,6 @@ public class DBHelper extends SQLiteOpenHelper {
         else
             return false;
     }
-    public List<Appointment> getAppointmentsForUser(String username) {
-        List<Appointment> appointments = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM appointment WHERE username = ?", new String[]{username});
-
-        while (cursor.moveToNext()) {
-            @SuppressLint("Range") String doctorUsername = cursor.getString(cursor.getColumnIndex("doctorusername"));
-            @SuppressLint("Range") String date = cursor.getString(cursor.getColumnIndex("data"));
-            @SuppressLint("Range") String startTime = cursor.getString(cursor.getColumnIndex("ora_inceput"));
-            @SuppressLint("Range") String endTime = cursor.getString(cursor.getColumnIndex("ora_sfarsit"));
-            appointments.add(new Appointment(doctorUsername, date, startTime, endTime));
-        }
-        cursor.close();
-        db.close();
-        return appointments;
-    }
-
-
-
     @SuppressLint("Range")
     public List<String> getAllDoctorNames() {
         List<String> doctorNames = new ArrayList<>();
@@ -179,13 +164,6 @@ public class DBHelper extends SQLiteOpenHelper {
             return true;
         else return false;
     }
-    public boolean checkusernameappointment(String username) {
-        SQLiteDatabase MyDb = this.getWritableDatabase();
-        Cursor cursor = MyDb.rawQuery("SELECT * from appointment where username= ?", new String[] {username});
-        if(cursor.getCount() > 0 )
-            return  true;
-        else return false;
-    }
     public boolean checkDoctorUsernamePassword(String doctorusername, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM doctors WHERE doctorusername = ? AND password = ?", new String[] {doctorusername, password});
@@ -195,21 +173,63 @@ public class DBHelper extends SQLiteOpenHelper {
         return count > 0;
     }
 
-    public class Appointment {
-        private String doctorUsername;
-        private String date;
-        private String startTime;
-        private String endTime;
+    public List<Appointment> getAppointmentsForUser(String username) {
+        List<Appointment> appointments = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM appointment WHERE username = ?", new String[]{username});
 
-        public Appointment(Cursor cursor) {
-            // Extrageți informațiile din cursor și inițializați câmpurile
+        while (cursor.moveToNext()) {
+            @SuppressLint("Range") String doctorUsername = cursor.getString(cursor.getColumnIndex("doctorusername"));
+            @SuppressLint("Range") String date = cursor.getString(cursor.getColumnIndex("data"));
+            @SuppressLint("Range") String startTime = cursor.getString(cursor.getColumnIndex("ora_inceput"));
+            @SuppressLint("Range") String endTime = cursor.getString(cursor.getColumnIndex("ora_sfarsit"));
+            appointments.add(new Appointment(doctorUsername, date, startTime, endTime));
         }
+        Log.d("DBHelper", "Număr de programări returnate: " + appointments.size());
 
-        public Appointment(String doctorUsername, String date, String startTime, String endTime) {
-        }
-
-        // Getteri și setteri
+        cursor.close();
+        db.close();
+        return appointments;
     }
+    public List<AppointmentForDoctor> getAppointmentsForDoctor(String doctorUsername) {
+        List<AppointmentForDoctor> appointments = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM appointment WHERE doctorusername = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{doctorUsername});
+
+        if (cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range") String patientUsername = cursor.getString(cursor.getColumnIndex("username"));
+                @SuppressLint("Range") String date = cursor.getString(cursor.getColumnIndex("data"));
+                @SuppressLint("Range") String startTime = cursor.getString(cursor.getColumnIndex("ora_inceput"));
+                @SuppressLint("Range") String endTime = cursor.getString(cursor.getColumnIndex("ora_sfarsit"));
+                // Aici asumi că ai o clasă Appointment care poate stoca aceste informații
+                appointments.add(new AppointmentForDoctor(patientUsername, date, startTime, endTime));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return appointments;
+    }
+    @SuppressLint("Range")
+    public String getEmailForUsername(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String email = null;
+        Cursor cursor = db.query("users", new String[]{"email"}, "username=?", new String[]{username}, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            email = cursor.getString(cursor.getColumnIndex("email"));
+            cursor.close();
+        }
+        db.close();
+
+        return email;
+    }
+
+
+
+
 
 
 }
