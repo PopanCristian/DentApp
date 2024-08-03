@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                                 editor.putString("username", String.valueOf(username)); // 'username' este numele de utilizator al utilizatorului care se autentifică
                                 editor.apply();
 
-                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), Login.class);
                                 startActivity(intent);
                             } else {
                                 Toast.makeText(MainActivity.this, "Nu s-a putut realiza crearea !", Toast.LENGTH_SHORT).show();

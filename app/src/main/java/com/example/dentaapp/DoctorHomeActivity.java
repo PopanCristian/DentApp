@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,9 +17,10 @@ import java.util.List;
 
 public class DoctorHomeActivity extends AppCompatActivity {
     private ListView listViewAppointments;
+    DBHelper dbHelper;
 
     Button btnProgramarileMele, btnProfil;
-    DBHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,13 +38,16 @@ public class DoctorHomeActivity extends AppCompatActivity {
         btnProfil.setBackgroundColor(getResources().getColor(R.color.unselected_button_color));
 
         String doctorUsername = getIntent().getStringExtra("USERNAME");
-        if (doctorUsername != null && !doctorUsername.isEmpty()) {
-            List<AppointmentForDoctor> appointmentsList = dbHelper.getAppointmentsForDoctor(doctorUsername);
+        String doctorName = dbHelper.getDoctorNameFromUsername(doctorUsername);
+
+
+        /*if (doctorName != null && !doctorName.isEmpty()) {
+            List<AppointmentForDoctor> appointmentsList = dbHelper.getAppointmentsForDoctor(doctorName);
             AppointmentAdapterDoctor adapter = new AppointmentAdapterDoctor(this, appointmentsList);
             listViewAppointments.setAdapter(adapter);
         } else {
             Toast.makeText(this, "Nu s-a putut obține username-ul doctorului.", Toast.LENGTH_LONG).show();
-        }
+        }*/
 
         btnProfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,4 +57,5 @@ public class DoctorHomeActivity extends AppCompatActivity {
             }
         });
     }
+
 }

@@ -67,6 +67,7 @@
         android:textColorHint="@color/white"
         android:inputType="textPassword"
         />
+
     <EditText
         android:id="@+id/confirmpass"
         android:layout_width="match_parent"

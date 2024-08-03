@@ -1,6 +1,7 @@
 package com.example.dentaapp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,7 @@ public class DoctorSignUp extends AppCompatActivity {
     EditText editTextName, editTextEmail, editTextPassword, editTextConfirmPassword,editTextDoctorPhone,editTextDoctorUserName;
     AutoCompleteTextView editTextArea;
     Button buttonSignUp;
+    ImageButton back;
     DBHelper dbHelper;
 
     @SuppressLint("MissingInflatedId")
@@ -37,6 +40,7 @@ public class DoctorSignUp extends AppCompatActivity {
         editTextDoctorUserName = findViewById(R.id.editTextDoctorUserName);
         editTextArea = findViewById(R.id.editTextArea);
         buttonSignUp = findViewById(R.id.buttonDoctorSignUp);
+        back = findViewById(R.id.backbutton);
         String[] judete = {"Alba", "Arad", "Arges", "Bacau", "Bihor", "Bistrita-Nasaud", "Botosani", "Braila", "Brasov", "Buzau",
                 "Calarasi", "Caras-Severin", "Cluj", "Constanta", "Covasna", "Dambovita", "Dolj", "Galati", "Giurgiu",
                 "Gorj", "Harghita", "Hunedoara", "Ialomita", "Iasi", "Ilfov", "Maramures", "Mehedinti", "Mures",
@@ -80,6 +84,21 @@ public class DoctorSignUp extends AppCompatActivity {
                 }
             }
         });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+
+                // Setează flag-urile pentru a curăța stiva de activități
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                // Începe activitatea
+                startActivity(intent);
+
+                // Termină activitatea curentă
+                finish();
+            }
+        });
     }
 
     private boolean validateInputs(String username,String name, String email, String password, String repassword, String phone,String location) {
@@ -107,4 +126,5 @@ public class DoctorSignUp extends AppCompatActivity {
         }
         return true;
     }
+
 }

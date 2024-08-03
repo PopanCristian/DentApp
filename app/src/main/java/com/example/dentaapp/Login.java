@@ -46,7 +46,7 @@ public class Login extends AppCompatActivity {
                 String pass2 = doctorpassword.getText().toString();
 
                 if (TextUtils.isEmpty(user) && TextUtils.isEmpty(doctor)) {
-                    Toast.makeText(Login.this, "Completează câmpurile corespunzătoare rolului tău!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Completează câmpurile corespunzătoare tipului tău de cont!", Toast.LENGTH_SHORT).show();
                 } else if (!TextUtils.isEmpty(user) && TextUtils.isEmpty(doctor)) {
                     if (TextUtils.isEmpty(pass)) {
                         Toast.makeText(Login.this, "Completează toate câmpurile de pacient!", Toast.LENGTH_SHORT).show();
@@ -83,7 +83,15 @@ public class Login extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Terminați activitatea curentă
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+
+                // Setează flag-urile pentru a curăța stiva de activități
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                // Începe activitatea
+                startActivity(intent);
+
+                // Termină activitatea curentă
                 finish();
             }
         });

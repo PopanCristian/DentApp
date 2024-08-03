@@ -191,27 +191,58 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return appointments;
     }
-    public List<AppointmentForDoctor> getAppointmentsForDoctor(String doctorUsername) {
+    @SuppressLint("Range")
+    public String getDoctorNameFromUsername(String doctorUsername) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String doctorName = null;
+        // Interogarea corectă este SELECT doctorname FROM doctors WHERE doctorusername = ?
+        Cursor cursor = db.rawQuery("SELECT doctorname FROM doctors WHERE doctorusername = ?", new String[]{doctorUsername});
+
+        if (cursor != null && cursor.moveToFirst()) {
+            // Obțineți indexul corect pentru coloana doctorname
+            int nameIndex = cursor.getColumnIndex("doctorname");
+            if (nameIndex != -1) { // Asigurați-vă că indexul coloanei este valid
+                doctorName = cursor.getString(nameIndex);
+            }
+            cursor.close();
+        }
+
+        db.close();
+        return doctorName;
+    }
+
+    public List<AppointmentForDoctor> getAppointmentsForDoctor(String doctorName) {
         List<AppointmentForDoctor> appointments = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM appointment WHERE doctorusername = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{doctorUsername});
+        //Log.d("DBHelper", "Doctor Name: " + doctorName);
 
-        if (cursor.moveToFirst()) {
+
+        // Realizați o interogare join între tabelele doctors și appointment
+        Cursor cursor = db.rawQuery("SELECT a.* FROM appointment a " +
+                "INNER JOIN doctors d ON a.doctorusername = d.doctorusername " +
+                "WHERE d.doctorname = ?", new String[]{doctorName});
+
+        if (cursor != null && cursor.moveToFirst()) {
             do {
+                // Presupunem că avem coloanele username, data, ora_inceput, ora_sfarsit în tabelul appointment
                 @SuppressLint("Range") String patientUsername = cursor.getString(cursor.getColumnIndex("username"));
                 @SuppressLint("Range") String date = cursor.getString(cursor.getColumnIndex("data"));
                 @SuppressLint("Range") String startTime = cursor.getString(cursor.getColumnIndex("ora_inceput"));
                 @SuppressLint("Range") String endTime = cursor.getString(cursor.getColumnIndex("ora_sfarsit"));
-                // Aici asumi că ai o clasă Appointment care poate stoca aceste informații
                 appointments.add(new AppointmentForDoctor(patientUsername, date, startTime, endTime));
             } while (cursor.moveToNext());
+
+            cursor.close();
+        } else {
+            // Logați sau tratați cazul în care cursorul este null sau nu conține date
+            Log.i("DatabaseHelper", "No data found for the given doctor name");
         }
 
-        cursor.close();
         db.close();
         return appointments;
     }
+
+
     @SuppressLint("Range")
     public String getEmailForUsername(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
