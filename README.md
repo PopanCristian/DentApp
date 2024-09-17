@@ -1,1 +1,1 @@
-A basic application for scheduling patients with one of the registered doctors using Android Studio and Java
+Basic app for scheduling patients with one of the registered doctors in Android Studio 
